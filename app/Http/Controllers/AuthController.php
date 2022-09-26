@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function register()
+    public function register(Request $request)
     {
         return 'hello';
     }
