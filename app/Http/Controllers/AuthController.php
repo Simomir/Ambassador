@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Cookie;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,6 +46,8 @@ class AuthController extends Controller
 
     public function logout()
     {
-
+        return response([
+            'message' => 'success'
+        ])->withCookie(Cookie::forget('jwt'));
     }
 }
