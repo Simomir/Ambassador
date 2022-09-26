@@ -31,6 +31,8 @@ class AuthController extends Controller
         }
 
         $user = \Auth::user();
-        return $user;
+        $jwt = $user->createToken('token')->plainTextToken;
+
+        return $jwt;
     }
 }
