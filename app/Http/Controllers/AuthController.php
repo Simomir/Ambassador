@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateInfoRequest;
 use App\Models\User;
 use Cookie;
 use Illuminate\Http\Request;
@@ -51,7 +52,7 @@ class AuthController extends Controller
         ])->withCookie(Cookie::forget('jwt'));
     }
 
-    public function updateInfo()
+    public function updateInfo(UpdateInfoRequest $request)
     {
 
     }
