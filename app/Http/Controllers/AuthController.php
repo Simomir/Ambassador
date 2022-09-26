@@ -37,4 +37,9 @@ class AuthController extends Controller
 
         return response('success')->withCookie($cookie);
     }
+
+    public function user(Request $request)
+    {
+
+    }
 }
