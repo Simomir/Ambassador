@@ -36,6 +36,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|User ambassadors()
  */
 class User extends Authenticatable
 {
@@ -47,4 +48,8 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function scopeAmbassadors($query)
+    {
+        return $query->where('is_admin', 0);
+    }
 }
