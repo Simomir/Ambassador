@@ -17,7 +17,7 @@ class ScopeAdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!$request->user()->tokenCan('admin')) {
-            abort('unauthorized');
+            abort(401, 'unauthorized');
         }
         return $next($request);
     }

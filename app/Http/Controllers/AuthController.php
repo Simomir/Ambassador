@@ -32,7 +32,7 @@ class AuthController extends Controller
         }
 
         $user = \Auth::user();
-        $jwt = $user->createToken('token')->plainTextToken;
+        $jwt = $user->createToken('token', ['admin'])->plainTextToken;
 
         $cookie = cookie('jwt', $jwt, 1440); // timeout - 1day
 
