@@ -40,6 +40,6 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-
+        return $request->user();
     }
 }
