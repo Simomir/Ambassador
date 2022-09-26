@@ -50,4 +50,9 @@ class AuthController extends Controller
             'message' => 'success'
         ])->withCookie(Cookie::forget('jwt'));
     }
+
+    public function updateInfo()
+    {
+
+    }
 }
