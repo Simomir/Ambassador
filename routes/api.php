@@ -19,4 +19,8 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::post('/register', [AuthController::class, 'register']);
+// Admin
+
+Route::prefix('/admin')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+});
