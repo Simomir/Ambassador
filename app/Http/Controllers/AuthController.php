@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateInfoRequest;
 use App\Models\User;
+use Auth;
 use Cookie;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,14 +26,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        if (!\Auth::attempt($request->only('email', 'password')))
+        if (!Auth::attempt($request->only('email', 'password')))
         {
             return response([
                 'error' => 'invalid credentials'
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = \Auth::user();
+        $user = Auth::user();
         $jwt = $user->createToken('token', ['admin'])->plainTextToken;
 
         $cookie = cookie('jwt', $jwt, 1440); // timeout - 1day
