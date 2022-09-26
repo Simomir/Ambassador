@@ -20,4 +20,9 @@ class AuthController extends Controller
         );
         return response($user, Response::HTTP_CREATED);
     }
+
+    public function login()
+    {
+
+    }
 }
