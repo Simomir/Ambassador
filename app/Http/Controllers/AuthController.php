@@ -54,6 +54,8 @@ class AuthController extends Controller
 
     public function updateInfo(UpdateInfoRequest $request)
     {
-
+        $user = $request->user();
+        $user->update($request->only('first_name', 'last_name', 'email'));
+        return response($user, Response::HTTP_ACCEPTED);
     }
 }
