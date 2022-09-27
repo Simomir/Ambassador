@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\OrderFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Order
@@ -22,31 +27,31 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $country
  * @property string|null $zip
  * @property int $complete
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Order query()
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereAmbassadorEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereComplete($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereFirstName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereLastName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereTransactionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereZip($value)
- * @mixin \Eloquent
- * @method static \Database\Factories\OrderFactory factory(...$parameters)
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Order newModelQuery()
+ * @method static Builder|Order newQuery()
+ * @method static Builder|Order query()
+ * @method static Builder|Order whereAddress($value)
+ * @method static Builder|Order whereAmbassadorEmail($value)
+ * @method static Builder|Order whereCity($value)
+ * @method static Builder|Order whereCode($value)
+ * @method static Builder|Order whereComplete($value)
+ * @method static Builder|Order whereCountry($value)
+ * @method static Builder|Order whereCreatedAt($value)
+ * @method static Builder|Order whereEmail($value)
+ * @method static Builder|Order whereFirstName($value)
+ * @method static Builder|Order whereId($value)
+ * @method static Builder|Order whereLastName($value)
+ * @method static Builder|Order whereTransactionId($value)
+ * @method static Builder|Order whereUpdatedAt($value)
+ * @method static Builder|Order whereUserId($value)
+ * @method static Builder|Order whereZip($value)
+ * @mixin Eloquent
+ * @method static OrderFactory factory(...$parameters)
  * @property-read mixed $name
  * @property-read mixed $admin_revenue
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $orderItems
+ * @property-read Collection|OrderItem[] $orderItems
  * @property-read int|null $order_items_count
  */
 class Order extends Model
