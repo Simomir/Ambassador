@@ -42,6 +42,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereZip($value)
  * @mixin \Eloquent
+ * @method static \Database\Factories\OrderFactory factory(...$parameters)
  */
 class Order extends Model
 {
