@@ -27,4 +27,9 @@ class Link extends Model
     protected $guarded = [];
 
     public $timestamps = false;
+
+    public function user()
+    {
+        $this->belongsTo(User::class);
+    }
 }
