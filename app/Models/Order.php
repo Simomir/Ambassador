@@ -72,6 +72,6 @@ class Order extends Model
 
     public function getAdminRevenueAttribute()
     {
-        return $this->orderItems->sum(fn(OrderItem $item) => $item->admin_revenue);
+        return round($this->orderItems->sum(fn(OrderItem $item) => $item->admin_revenue), 2);
     }
 }
