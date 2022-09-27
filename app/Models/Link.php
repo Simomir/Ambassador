@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereUserId($value)
  * @mixin \Eloquent
  * @method static \Database\Factories\LinkFactory factory(...$parameters)
- * @property-read \App\Models\User $user
+ * @property-read User $user
  */
 class Link extends Model
 {
