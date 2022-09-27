@@ -14,6 +14,12 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'total' => $this->admin_revenue,
+            'order_items' => $this->order_items
+        ];
     }
 }
