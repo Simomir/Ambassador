@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereUserId($value)
  * @mixin \Eloquent
  * @method static \Database\Factories\LinkFactory factory(...$parameters)
+ * @property-read \App\Models\User $user
  */
 class Link extends Model
 {
@@ -30,6 +31,6 @@ class Link extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }
