@@ -70,7 +70,7 @@ class Order extends Model
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function getAdminRevenueAttribute()
+    public function getAdminRevenueAttribute(): float
     {
         return round($this->orderItems->sum(fn(OrderItem $item) => $item->admin_revenue), 2);
     }
