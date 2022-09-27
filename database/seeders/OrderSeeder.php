@@ -12,12 +12,13 @@ class OrderSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     * @throws \Exception
      */
     public function run()
     {
         Order::factory(30)->create()->each(function (Order $order) {
             OrderItem::factory(random_int(1, 5))->create([
-                'order-id' => $order->id
+                'order_id' => $order->id
             ]);
         });
     }
