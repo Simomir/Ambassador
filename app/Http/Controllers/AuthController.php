@@ -20,7 +20,7 @@ class AuthController extends Controller
             $request->only('first_name', 'last_name', 'email')
             + [
                 'password' => Hash::make($request->input('password')),
-                'is_admin' => 1,
+                'is_admin' => $request->path() === '/api/admin/register' ? 1 : 0,
             ]
         );
         return response($user, Response::HTTP_CREATED);
@@ -36,7 +36,18 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        $jwt = $user->createToken('token', ['admin'])->plainTextToken;
+        $adminLogin = $request->path() === '/api/admin/login';
+
+        if ($adminLogin && !$user->is_admin)
+        {
+            return response([
+                'error' => 'Access denied!'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $scope = $adminLogin ? 'admin' : 'ambassador';
+
+        $jwt = $user->createToken('token', [$scope])->plainTextToken;
 
         $cookie = cookie('jwt', $jwt, 1440); // timeout - 1day
 
