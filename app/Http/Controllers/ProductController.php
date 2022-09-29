@@ -36,4 +36,14 @@ class ProductController extends Controller
         $product->delete();
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function frontend()
+    {
+        return Product::all();
+    }
+
+    public function backend()
+    {
+        return Product::paginate();
+    }
 }
