@@ -10,7 +10,8 @@ class StatsController extends Controller
 {
     public function index(Request $request)
     {
-        $links = Link::where('user_id', $request->user()->id)->get();
+        $user = $request->user();
+        $links = Link::where('user_id', $user->id)->get();
 
         return $links->map(
             function (Link $link) {
