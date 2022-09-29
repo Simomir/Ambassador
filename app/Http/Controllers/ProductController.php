@@ -6,6 +6,7 @@ use App\Models\Product;
 use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Psr\SimpleCache\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -60,6 +61,12 @@ class ProductController extends Controller
 
         /** @var Collection $products */
         $products = Cache::remember('products_backend', 1800, fn () => Product::all());
+
+        if($s = $request->input('s')) {
+            $products = $products->filter(
+                fn(Product $product) => Str::contains($product->title, $s) || Str::contains($product->description, $s)
+            );
+        }
 
         $total = $products->count();
 
