@@ -55,6 +55,8 @@ class ProductController extends Controller
 
     public function backend()
     {
-        return Product::paginate();
+        return Cache::remember('products_backend', 1800, function () {
+            return Product::paginate();
+        });
     }
 }
