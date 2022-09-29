@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Cache;
 use Illuminate\Http\Request;
+use Psr\SimpleCache\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
@@ -37,9 +39,18 @@ class ProductController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function frontend()
     {
-        return Product::all();
+        if($products = Cache::get('products_frontend')) {
+            return $products;
+        }
+        sleep(3);
+        $products = Product::all();
+        Cache::set('products_frontend', $products, 1800);
+        return $products;
     }
 
     public function backend()
