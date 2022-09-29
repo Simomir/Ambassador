@@ -62,6 +62,7 @@ class ProductController extends Controller
         /** @var Collection $products */
         $products = Cache::remember('products_backend', 1800, fn () => Product::all());
 
+        // search by str fragment in title or description
         if($s = $request->input('s')) {
             $products = $products->filter(
                 fn(Product $product) => Str::contains($product->title, $s) || Str::contains($product->description, $s)
@@ -70,6 +71,20 @@ class ProductController extends Controller
 
         $total = $products->count();
 
+        // sort by price in asc or desc order
+        if($sort = $request->input('sort')) {
+            if($sort === 'asc') {
+                $products = $products->sortBy([
+                    fn($a, $b) => $a['price'] <=> $b['price']
+                ]);
+            } elseif ($sort === 'desc') {
+                $products = $products->sortBy([
+                    fn($a, $b) => $b['price'] <=> $a['price']
+                ]);
+            }
+        }
+
+        // return statement with manual pagination
         return [
             'data' => $products->forPage($page, 9)->values(),
             'meta' => [
