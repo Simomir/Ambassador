@@ -67,6 +67,6 @@ class User extends Authenticatable
 
     public function getRevenueAttribute()
     {
-
+        return round($this->orders->sum(fn(Order $order) => $order->ambassador_revenue), 2);
     }
 }
