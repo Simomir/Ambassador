@@ -74,4 +74,9 @@ class Order extends Model
     {
         return round($this->orderItems->sum(fn(OrderItem $item) => $item->admin_revenue), 2);
     }
+
+    public function getAmbassadorRevenueAttribute(): float
+    {
+        return round($this->orderItems->sum(fn(OrderItem $item) => $item->ambassador_revenue), 2);
+    }
 }
