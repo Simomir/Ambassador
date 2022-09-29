@@ -53,6 +53,7 @@ use Illuminate\Support\Carbon;
  * @property-read mixed $admin_revenue
  * @property-read Collection|OrderItem[] $orderItems
  * @property-read int|null $order_items_count
+ * @property-read float $ambassador_revenue
  */
 class Order extends Model
 {

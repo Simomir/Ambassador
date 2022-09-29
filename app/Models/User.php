@@ -39,6 +39,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|User ambassadors()
  * @method static \Illuminate\Database\Eloquent\Builder|User admins()
+ * @property-read mixed $revenue
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read int|null $orders_count
  */
 class User extends Authenticatable
 {
@@ -65,7 +68,7 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function getRevenueAttribute()
+    public function getRevenueAttribute(): float
     {
         return round($this->orders->sum(fn(Order $order) => $order->ambassador_revenue), 2);
     }
