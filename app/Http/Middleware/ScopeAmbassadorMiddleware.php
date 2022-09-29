@@ -16,6 +16,9 @@ class ScopeAmbassadorMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        if (!$request->user()->tokenCan('ambassador')) {
+            abort(401, 'unauthorized');
+        }
         return $next($request);
     }
 }
