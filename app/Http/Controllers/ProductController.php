@@ -64,8 +64,8 @@ class ProductController extends Controller
         $total = $products->count();
 
         return [
-            'data' => $products->forPage($page, 9),
-            'meta' =>[
+            'data' => $products->forPage($page, 9)->values(),
+            'meta' => [
                 'total' => $total,
                 'page' => $page,
                 'last_page' => ceil($total / 9)
