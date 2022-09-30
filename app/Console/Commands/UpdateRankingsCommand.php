@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
+use function Symfony\Component\String\u;
 
 class UpdateRankingsCommand extends Command
 {
@@ -11,32 +14,20 @@ class UpdateRankingsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'update:rankings';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
-        return 0;
+        $ambassadors = User::ambassadors()->get();
+
+        $bar = $this->output->createProgressBar($ambassadors->count());
+        $bar->start();
+
+        $ambassadors->each(function(User $user) use ($bar) {
+            Redis::zadd('rankings', $user->revenue, $user->name);
+            $bar->advance();
+        });
+
+        $bar->finish();
     }
 }
