@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class)->where('complete', 1);
     }
 
     public function getRevenueAttribute(): float
