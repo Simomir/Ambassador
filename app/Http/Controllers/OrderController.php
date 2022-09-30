@@ -7,8 +7,10 @@ use App\Models\Link;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Throwable;
 
 class OrderController extends Controller
 {
@@ -17,39 +19,51 @@ class OrderController extends Controller
         return OrderResource::collection(Order::with('orderItems')->get());
     }
 
-    public function store(Request $request)
+    /**
+     * @throws Throwable
+     */
+    public function store(Request $request): Order
     {
         if(!$link = Link::where('code', $request->input('code'))->first()) {
             abort(400, 'Invalid code');
         };
 
-        $order = new Order();
+        try {
+            DB::beginTransaction();
 
-        $order->code = $link->code;
-        $order->user_id = $link->user->id;
-        $order->ambassador_email = $link->user->email;
-        $order->first_name = $request->input('first_name');
-        $order->last_name = $request->input('last_name');
-        $order->email = $request->input('email');
-        $order->address = $request->input('address');
-        $order->country = $request->input('country');
-        $order->city = $request->input('city');
-        $order->zip = $request->input('zip');
+            $order = new Order();
 
-        $order->save();
+            $order->code = $link->code;
+            $order->user_id = $link->user->id;
+            $order->ambassador_email = $link->user->email;
+            $order->first_name = $request->input('first_name');
+            $order->last_name = $request->input('last_name');
+            $order->email = $request->input('email');
+            $order->address = $request->input('address');
+            $order->country = $request->input('country');
+            $order->city = $request->input('city');
+            $order->zip = $request->input('zip');
 
-        foreach ($request->input('products') as $item) {
-            $product = Product::find($item['product_id']);
+            $order->save();
 
-            $orderItem = new OrderItem();
-            $orderItem->order_id = $order->id;
-            $orderItem->product_title = $product->title;
-            $orderItem->price = $product->price;
-            $orderItem->quantity = $item['quantity'];
-            $orderItem->ambassador_revenue = $product->price * $item['quantity'] * 0.1;
-            $orderItem->admin_revenue = $product->price * $item['quantity'] * 0.9;
+            foreach ($request->input('products') as $item) {
+                $product = Product::find($item['product_id']);
 
-            $orderItem->save();
+                $orderItem = new OrderItem();
+                $orderItem->order_id = $order->id;
+                $orderItem->product_title = $product->title;
+                $orderItem->price = $product->price;
+                $orderItem->quantity = $item['quantity'];
+                $orderItem->ambassador_revenue = $product->price * $item['quantity'] * 0.1;
+                $orderItem->admin_revenue = $product->price * $item['quantity'] * 0.9;
+
+                $orderItem->save();
+            }
+
+            DB::commit();
+        } catch (Throwable $exception) {
+            DB::rollBack();
+            abort(500, 'An error occurred');
         }
 
         return $order->load('orderItems');
