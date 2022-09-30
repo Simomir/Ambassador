@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\OrderResource;
 use App\Models\Link;
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -35,5 +37,21 @@ class OrderController extends Controller
         $order->zip = $request->input('zip');
 
         $order->save();
+
+        foreach ($request->input('products') as $item) {
+            $product = Product::find($item['product_id']);
+
+            $orderItem = new OrderItem();
+            $orderItem->order_id = $order->id;
+            $orderItem->product_title = $product->title;
+            $orderItem->price = $product->price;
+            $orderItem->quantity = $item['quantity'];
+            $orderItem->ambassador_revenue = $product->price * $item['quantity'] * 0.1;
+            $orderItem->admin_revenue = $product->price * $item['quantity'] * 0.9;
+
+            $orderItem->save();
+        }
+
+        return $order->load('orderItems');
     }
 }
