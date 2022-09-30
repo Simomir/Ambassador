@@ -62,3 +62,8 @@ Route::prefix('/ambassador')->group(function () {
         Route::post('/links', [LinkController::class, 'store']);
     });
 });
+
+//Checkout
+Route::prefix('/checkout')->group(function () {
+    Route::get('/links/{code}', [LinkController::class, 'show']);
+});
