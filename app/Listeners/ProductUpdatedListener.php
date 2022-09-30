@@ -2,13 +2,14 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Events\ProductUpdatedEvent;
+use Cache;
 
 class ProductUpdatedListener
 {
-    public function handle($event)
+    public function handle(ProductUpdatedEvent $event)
     {
-        //
+        Cache::forget('products_frontend');
+        Cache::forget('products_backend');
     }
 }
