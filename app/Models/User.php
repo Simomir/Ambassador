@@ -49,6 +49,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read mixed $revenue
  * @property-read Collection|Order[] $orders
  * @property-read int|null $orders_count
+ * @property-read string $name
  */
 class User extends Authenticatable
 {
@@ -78,5 +79,10 @@ class User extends Authenticatable
     public function getRevenueAttribute(): float
     {
         return round($this->orders->sum(fn(Order $order) => $order->ambassador_revenue), 2);
+    }
+
+    public function getNameAttribute(): string
+    {
+        return $this->first_name.' '.$this->last_name;
     }
 }

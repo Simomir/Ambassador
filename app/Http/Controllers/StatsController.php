@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Link;
 use App\Models\Order;
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -22,5 +23,16 @@ class StatsController extends Controller
                 ];
             }
         );
+    }
+
+    public function rankings()
+    {
+        $ambassadors = User::ambassadors()->get();
+        $rankings = $ambassadors->map(function (User $user) {
+            return [
+                'name' => $user->name,
+                'revenue' => $user->revenue,
+            ];
+        });
     }
 }
