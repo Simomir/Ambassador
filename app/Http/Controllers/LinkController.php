@@ -32,4 +32,9 @@ class LinkController extends Controller
 
         return $link;
     }
+
+    public function show(string $code)
+    {
+        return Link::with('user', 'products')->where('code', $code)->get();
+    }
 }
