@@ -33,6 +33,6 @@ class StatsController extends Controller
                 'name' => $user->name,
                 'revenue' => $user->revenue,
             ];
-        });
+        })->sortByDesc('revenue');
     }
 }
