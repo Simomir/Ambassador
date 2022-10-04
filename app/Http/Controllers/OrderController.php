@@ -23,7 +23,7 @@ class OrderController extends Controller
     /**
      * @throws Throwable
      */
-    public function store(Request $request): Order
+    public function store(Request $request)
     {
         if(!$link = Link::where('code', $request->input('code'))->first()) {
             abort(400, 'Invalid code');
@@ -89,7 +89,9 @@ class OrderController extends Controller
             return $source;
         } catch (Throwable $exception) {
             DB::rollBack();
-            abort(500, 'An error occurred');
+            return response([
+                'error' => $exception->getMessage()
+            ], 400);
         }
     }
 }
