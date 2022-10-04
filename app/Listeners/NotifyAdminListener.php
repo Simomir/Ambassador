@@ -2,29 +2,14 @@
 
 namespace App\Listeners;
 
+use App\Events\OrderCompletedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class NotifyAdminListener
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function handle(OrderCompletedEvent $event)
     {
-        //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  object  $event
-     * @return void
-     */
-    public function handle($event)
-    {
-        //
+        $order = $event->order;
     }
 }
