@@ -97,7 +97,7 @@ class OrderController extends Controller
 
     public function confirm(Request $request)
     {
-        if(!$order = Order::where('transaction_id', $request->input('source')->first()))
+        if(!$order = Order::where('transaction_id', $request->input('source'))->first())
         {
             return response([
                 'error' => 'Order not found'
