@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read User $user
  * @property-read Collection|Product[] $products
  * @property-read int|null $products_count
+ * @property-read Collection|\App\Models\Order[] $orders
+ * @property-read int|null $orders_count
  */
 class Link extends Model
 {
