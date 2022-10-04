@@ -7,6 +7,7 @@ use App\Models\Link;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use Cartalyst\Stripe\Stripe;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -46,6 +47,8 @@ class OrderController extends Controller
 
             $order->save();
 
+            $lineItems = [];
+
             foreach ($request->input('products') as $item) {
                 $product = Product::find($item['product_id']);
 
@@ -58,14 +61,35 @@ class OrderController extends Controller
                 $orderItem->admin_revenue = $product->price * $item['quantity'] * 0.9;
 
                 $orderItem->save();
+
+                $lineItems[] = [
+                    'name' => $product->title,
+                    'description' => $product->description,
+                    'images' => [
+                        $product->image
+                    ],
+                    'amount' => $product->price * 100,
+                    'currency' => 'usd',
+                    'quantity' => $item['quantity'],
+                ];
             }
 
+            $stripe = Stripe::make(env('STRIPE_SECRET'));
+            $source = $stripe->checkout()->sessions()->create([
+                'payment_method_types' => ['card'],
+                'line_items' => $lineItems,
+                'success_url' => env('CHECKOUT_URL') . '/success?source={CHECKOUT_SESSION_ID}',
+                'cancel_url' => env('CHECKOUT_URL') . '/error'
+            ]);
+
+            $order->transaction_id = $source['id'];
+            $order->save();
+
             DB::commit();
+            return $source;
         } catch (Throwable $exception) {
             DB::rollBack();
             abort(500, 'An error occurred');
         }
-
-        return $order->load('orderItems');
     }
 }
