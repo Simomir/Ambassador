@@ -2,29 +2,21 @@
 
 namespace App\Listeners;
 
+use App\Events\OrderCompletedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
+use Mail;
 
 class NotifyAmbassadorListener
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function handle(OrderCompletedEvent $event)
     {
-        //
-    }
+        $order = $event->order;
 
-    /**
-     * Handle the event.
-     *
-     * @param  object  $event
-     * @return void
-     */
-    public function handle($event)
-    {
-        //
+        Mail::send('ambassador', ['order' => $order], function (Message $message) use ($order) {
+            $message->subject('Order has been completed');
+            $message->to($order->ambassador_email);
+        });
     }
 }
