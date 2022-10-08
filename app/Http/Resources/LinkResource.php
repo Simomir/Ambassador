@@ -6,22 +6,20 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OrderResource extends JsonResource
+class LinkResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
      * @param  Request  $request
-     * @return array|Arrayable|\JsonSerializable
+     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'total' => $this->admin_revenue,
-            'order_items' => OrderItemResource::collection($this->whenLoaded('orderItems'))
+            'code' => $this->code,
+            'orders' => OrderResource::collection($this->whenLoaded('orders'))
         ];
     }
 }

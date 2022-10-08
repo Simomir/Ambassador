@@ -53,6 +53,7 @@ use Illuminate\Support\Carbon;
  * @property-read mixed $admin_revenue
  * @property-read Collection|OrderItem[] $orderItems
  * @property-read int|null $order_items_count
+ * @property-read float $ambassador_revenue
  */
 class Order extends Model
 {
@@ -73,5 +74,10 @@ class Order extends Model
     public function getAdminRevenueAttribute(): float
     {
         return round($this->orderItems->sum(fn(OrderItem $item) => $item->admin_revenue), 2);
+    }
+
+    public function getAmbassadorRevenueAttribute(): float
+    {
+        return round($this->orderItems->sum(fn(OrderItem $item) => $item->ambassador_revenue), 2);
     }
 }
