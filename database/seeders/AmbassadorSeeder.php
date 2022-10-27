@@ -14,7 +14,7 @@ class AmbassadorSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(30)->create([
+        User::factory(60)->create([
             'is_admin' => 0
         ]);
     }
