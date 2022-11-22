@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Link;
 use App\Models\Order;
+use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Redis;
 
@@ -26,6 +27,16 @@ class StatsController extends Controller
 
     public function rankings()
     {
-        Redis::zrevrange('rankings', 0, -1, 'WITHSCORES');
+        $ambassadors = User::ambassadors()->get();
+        $rankings = $ambassadors.map(
+            function (User $user) {
+                return [
+                    'name' => $user->name,
+                    'revenue' => $user->revenue
+                ];
+            }
+        );
+        return $rankings;
+//        Redis::zrevrange('rankings', 0, -1, 'WITHSCORES');
     }
 }
