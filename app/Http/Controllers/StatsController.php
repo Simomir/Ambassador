@@ -28,7 +28,7 @@ class StatsController extends Controller
     public function rankings()
     {
         $ambassadors = User::ambassadors()->get();
-        $rankings = $ambassadors.map(
+        return $ambassadors->map(
             function (User $user) {
                 return [
                     'name' => $user->name,
@@ -36,7 +36,5 @@ class StatsController extends Controller
                 ];
             }
         );
-        return $rankings;
-//        Redis::zrevrange('rankings', 0, -1, 'WITHSCORES');
     }
 }
