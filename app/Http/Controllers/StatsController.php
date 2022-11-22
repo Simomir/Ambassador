@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Link;
 use App\Models\Order;
-use App\Models\User;
 use Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
 class StatsController extends Controller

@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
-use function Symfony\Component\String\u;
 
 class UpdateRankingsCommand extends Command
 {
