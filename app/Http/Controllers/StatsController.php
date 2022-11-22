@@ -27,8 +27,7 @@ class StatsController extends Controller
 
     public function rankings()
     {
-        $ambassadors = User::ambassadors()->get();
-        return $ambassadors->map(
+        return User::ambassadors()->get()->map(
             function (User $user) {
                 return [
                     'name' => $user->name,
